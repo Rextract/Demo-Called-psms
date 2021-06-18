@@ -1,15 +1,14 @@
 package com.mitrais.psms.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.xml.crypto.Data;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 
 public class DaoStuff implements StuffDao {
     private DaoStuff {
-
     }
 
     private static class SingletonHelper {
@@ -46,12 +45,40 @@ public class DaoStuff implements StuffDao {
 
     @Override
     public List<Stuff> findAll() throws SQLException {
-        return null;
+        List<Stuff> listStuff = new ArrayList<>();
+        String sql = "SELECT stuff_id, name, description, quantity, location FROM stuff";
+
+        Connection conn = DataSourceFactory.getConnection();
+        Statement statement = conn.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt("stuff_id");
+            String name = resultSet.getString("name");
+            String description = resultSet.getString("description");
+            int quantity = resultSet.getInt("quantity");
+            String location = resultSet.getString("location");
+
+            Stuff stuff = new Stuff (id, name, description, quantity, location);
+            listStuff.add(stuff);
+        }
+        return listStuff;
     }
 
     @Override
-    public boolean save(Stuff o) throws SQLException {
-        return false;
+    public boolean save(Stuff stuff) throws SQLException {
+
+        String sql = "INSERT into stuff (name, description, quantity, location) VALUES (?, ?, ?, ?)";
+        boolean rowInserted = false;
+        Connection conn = DataSourceFactory.getConnection();
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, stuff.getName());
+        statement.setString(2, stuff.getDescription());
+        statement.setInt(3, stuff.getQuantity());
+        statement.setString(4, stuff.getLocation());
+        rowInserted = statement.executeUpdate() > 0 ;
+
+        return rowInserted;
     }
 
     @Override
