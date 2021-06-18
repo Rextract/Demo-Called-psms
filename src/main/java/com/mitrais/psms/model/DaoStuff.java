@@ -82,8 +82,20 @@ public class DaoStuff implements StuffDao {
     }
 
     @Override
-    public boolean update(Stuff o) throws SQLException {
-        return false;
+    public boolean update(Stuff stuff) throws SQLException {
+        String sql = "UPDATE stuff SET name = ?, description = ?, quantity = ?, location = ?";
+        sql += " WHERE stuff_id = ?";
+        boolean rowUpdated = false;
+        Connection conn = DataSourceFactory.getConnection();
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, stuff.getName());
+        statement.setString(2, stuff.getDescription());
+        statement.setInt(3, stuff.getQuantity());
+        statement.setString(4, stuff.getLocation());
+        statement.setInt(5, stuff.getId());
+        rowUpdated = statement.executeUpdate() > 0;
+
+        return rowUpdated;
     }
 
     @Override
