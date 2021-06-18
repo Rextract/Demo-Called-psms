@@ -1,5 +1,7 @@
 package com.mitrais.psms.model;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,6 +13,7 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 public class DataSourceFactory {
 

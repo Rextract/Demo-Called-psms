@@ -8,7 +8,8 @@ import java.util.Optional;
 import java.util.Stack;
 
 public class DaoStuff implements StuffDao {
-    private DaoStuff {
+
+    private DaoStuff () {
     }
 
     private static class SingletonHelper {
@@ -99,8 +100,17 @@ public class DaoStuff implements StuffDao {
     }
 
     @Override
-    public boolean delete(Stuff o) throws SQLException {
-        return false;
+    public boolean delete(Stuff stuff) throws SQLException {
+
+        String sql = "DELETE FROM stuff where stuff_id = ?";
+        boolean rowDeleted = false;
+
+        Connection conn = DataSourceFactory.getConnection();
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setInt(1, stuff.getId());
+        rowDeleted = statement.executeUpdate() > 0;
+
+        return rowDeleted;
     }
 
 
