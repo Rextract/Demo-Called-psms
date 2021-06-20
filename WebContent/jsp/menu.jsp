@@ -8,7 +8,7 @@
         <div class ="mdl-layout-spacer"></div>
         <!-- Navigation. We hide it in small screens. -->
         <tag:formatDate date="<%=Calendar.getInstance().getTime()%>"
-              format="dd-MM-YYYY hh:mm"></tag:formatDate>
+             format="dd-MM-YYYY hh:mm"></tag:formatDate>
         <nav class = "mdl-navigation mdl-layout--large-screen-only">
             <a class = "mdl-navigation__link" href = "/PSMS/new">Add New Stuff</a>
             <a class = "mdl-navigation__link" href = "/PSMS/list">List All Stuff</a>
